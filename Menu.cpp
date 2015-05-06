@@ -4,8 +4,8 @@
 
 Menu::Menu() : currentOption( MENU_PLAY )
 {
-    loadedFont = TTF_OpenFont( "the_first_fontstruction.ttf", 28 );
-    if( loadedFont == NULL )
+    menuFont = TTF_OpenFont( "the_first_fontstruction.ttf", 28 );
+    if( menuFont == NULL )
     {
         printf( "Failed to load font. SDL_ttf error: %s\n", TTF_GetError() );
         printf( "Failed to load media for play state.\n" );
@@ -14,8 +14,7 @@ Menu::Menu() : currentOption( MENU_PLAY )
 
 Menu::~Menu()
 {
-    TTF_CloseFont( loadedFont );
-    loadedFont = NULL;
+    TTF_CloseFont( menuFont );
 }
 
 void Menu::LoadTextures( SDL_Renderer* renderer )
@@ -32,7 +31,7 @@ void Menu::LoadTextures( SDL_Renderer* renderer )
     textTextures = std::vector<Texture>( 3 );
 
     sprintf( buffer, "Play" );
-    if( !textTextures[0].LoadFromRenderedText( renderer, buffer, textColor, loadedFont ) )
+    if( !textTextures[0].LoadFromRenderedText( renderer, buffer, textColor, menuFont ) )
     {
         printf( "Failed to render text texture for '%s'.\n", buffer );
         textTextures.clear();
@@ -40,7 +39,7 @@ void Menu::LoadTextures( SDL_Renderer* renderer )
     }
 
     sprintf( buffer, "View scores" );
-    if( !textTextures[1].LoadFromRenderedText( renderer, buffer, textColor, loadedFont ) )
+    if( !textTextures[1].LoadFromRenderedText( renderer, buffer, textColor, menuFont ) )
     {
         printf( "Failed to render text texture for '%s'.\n", buffer );
         textTextures.clear();
@@ -48,7 +47,7 @@ void Menu::LoadTextures( SDL_Renderer* renderer )
     }
 
     sprintf( buffer, "Quit" );
-    if( !textTextures[2].LoadFromRenderedText( renderer, buffer, textColor, loadedFont ) )
+    if( !textTextures[2].LoadFromRenderedText( renderer, buffer, textColor, menuFont ) )
     {
         printf( "Failed to render text texture for '%s'.\n", buffer );
         textTextures.clear();

@@ -29,10 +29,9 @@ private:
 
     int currentOption;
 
-    TTF_Font* loadedFont;
-
     Texture arrowTexture;
 
+    TTF_Font* menuFont;
     std::vector<Texture> textTextures;
 public:
     Menu();

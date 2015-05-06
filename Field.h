@@ -2,6 +2,8 @@
 #define FIELD_H_INCLUDED
 
 #include <SDL.h>
+#include <SDL_ttf.h>
+#include "Texture.h"
 
 enum BlockType
 {
@@ -38,7 +40,8 @@ class Field
 private:
     static const int squareSize = 20;
 
-    int score;
+    int actualScore;
+    int displayedScore;
 
     int* squares;
 
@@ -52,6 +55,9 @@ private:
     int lastTime;
 
     int currentState;
+
+    TTF_Font* scoreFont;
+    Texture scoreTexture;
 
     SDL_Color GetBlockColor( int blockType );
     void RenderSquare( SDL_Renderer* renderer, int x, int y );
@@ -67,7 +73,7 @@ private:
     bool CheckUpperBoundBroken();
 public:
     Field();
-    ~Field() {};
+    ~Field();
 
     void SetUpNewGame();
 
@@ -78,7 +84,7 @@ public:
     void PlaceBlock();
 
     int GetSquareSize() { return squareSize; };
-    int GetScore() { return score; };
+    int GetScore() { return actualScore; };
     int GetCurrentState() { return currentState; };
     void SetPhase( int newPhase ) { currentState = newPhase; };
     void SetTimePassed( int newTime ) { lastTime = SDL_GetTicks() - newTime; };

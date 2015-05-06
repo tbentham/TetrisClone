@@ -10,15 +10,16 @@
 class TetrisClone
 {
 private:
-    static const int fadeDelay = 1;
+    static const int fadeDelay = 2;
 
     bool isRunning;
 
-    std::unique_ptr<GameState> currentState;
+    std::unique_ptr<GameState> currentState; // TODO: Implement game state stack
 
     SDL_Event e;
 
     SDL_Renderer* mainRenderer;
+
     int fadeAlpha;
     int fadeLastTime;
 
@@ -35,6 +36,9 @@ public:
     void Render();
 
     bool IsRunning() { return isRunning; };
+
+    int max( int n1, int n2 ) { return n1 > n2 ? n1 : n2; }
+    int min( int n1, int n2 ) { return n1 < n2 ? n1 : n2; }
 };
 
 #endif // TETRISCLONE_H_INCLUDED

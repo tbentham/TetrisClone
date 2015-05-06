@@ -3,8 +3,6 @@
 
 #include "GameState.h"
 
-#include <SDL_ttf.h>
-
 #include "Texture.h"
 #include "Menu.h"
 
@@ -16,12 +14,13 @@ enum TitleState
 class TitleGameState : public GameState
 {
 private:
-    TTF_Font* titleFont;
     Texture titleTexture;
+
     Menu titleMenu;
 public:
     TitleGameState() {};
     ~TitleGameState() { Cleanup(); };
+
     bool Init( SDL_Renderer* renderer );
     void Cleanup();
     void HandleEvent( SDL_Event& e );

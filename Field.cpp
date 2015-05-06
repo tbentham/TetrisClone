@@ -4,15 +4,27 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define min( a, b ) ( a > b ? b : a )
-#define max( a, b ) ( a < b ? b : a )
+#define min( a, b ) ( (a) > (b) ? (b) : (a) )
+#define max( a, b ) ( (a) < (b) ? (b) : (a) )
 
 Field::Field()
 {
     squares = new int[240];
     rowCompletion = new bool[24];
 
+    scoreFont = TTF_OpenFont( "the_first_fontstruction.ttf", 28 );
+    if( scoreFont == NULL )
+    {
+        printf( "Failed to load score font. SDL_ttf error: %s\n", TTF_GetError() );
+        printf( "Failed to load media for play state.\n" );
+    }
+
     SetUpNewGame();
+}
+
+Field::~Field()
+{
+    TTF_CloseFont( scoreFont );
 }
 
 void Field::SetUpNewGame()
@@ -20,7 +32,8 @@ void Field::SetUpNewGame()
     int i;
 
     // Reset game score
-    score = 0;
+    actualScore = 0;
+    displayedScore = -1;
 
     // Set all squares to be empty
     for ( i = 0; i < 240; i++)
@@ -54,7 +67,7 @@ void Field::Update()
         ReleaseNextBlock();
         break;
     case FIELD_DESCEND:
-        if ( SDL_GetTicks() - lastTime > max( 1000 / ( score / 500 + 1 ), 100 ) )
+        if ( SDL_GetTicks() - lastTime > max( 1000 / ( actualScore / 500 + 1 ), 100 ) )
         {
             if ( !MoveBlock( TRANSLATE_DOWN ) )
                 PlaceBlock();
@@ -102,6 +115,22 @@ void Field::Render( SDL_Renderer* renderer, int x, int y )
         SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
         RenderBlock( renderer, nextBlockType, x + 11 * squareSize, y + 3 * squareSize );
     }
+
+    if ( actualScore != displayedScore )
+    {
+        char buffer[10];
+        SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0x00 };
+
+        sprintf( buffer, "%d", actualScore );
+        if( !scoreTexture.LoadFromRenderedText( renderer, buffer, textColor, scoreFont ) )
+        {
+            printf( "Failed to render score texture.\n" );
+        }
+
+        displayedScore = actualScore;
+    }
+
+    scoreTexture.Render( renderer, x + 11 * squareSize, y );
 }
 
 SDL_Color Field::GetBlockColor( int blockType )
@@ -460,7 +489,7 @@ bool Field::CheckRowComplete()
         if ( rowCompletion[i] )
         {
             rowComplete = true;
-            score += 100;
+            actualScore += 100;
         }
     }
 

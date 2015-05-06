@@ -6,17 +6,6 @@ bool PlayGameState::Init( SDL_Renderer* renderer )
 {
     gameStateRequest = -1; // -1 = no request
 
-    loadedFont = TTF_OpenFont( "the_first_fontstruction.ttf", 28 );
-    if( loadedFont == NULL )
-    {
-        printf( "Failed to load font. SDL_ttf error: %s\n", TTF_GetError() );
-        printf( "Failed to load media for play state.\n" );
-        return false;
-    }
-
-    scoreTexture = Texture();
-    displayedScore = -1;
-
     playField.SetUpNewGame();
 
     return true;
@@ -24,9 +13,7 @@ bool PlayGameState::Init( SDL_Renderer* renderer )
 
 void PlayGameState::Cleanup()
 {
-    TTF_CloseFont( loadedFont );
-    loadedFont = NULL;
-    scoreTexture.Cleanup();
+
 }
 
 void PlayGameState::HandleEvent( SDL_Event& e )
@@ -69,7 +56,7 @@ void PlayGameState::Update()
     playField.Update();
 
     if ( playField.GetCurrentState() == FIELD_GAMEOVER )
-        gameStateRequest = GAME_PLAY;
+        gameStateRequest = GAME_TITLE;
 }
 
 void PlayGameState::Render( SDL_Renderer* renderer )
@@ -97,21 +84,6 @@ void PlayGameState::Render( SDL_Renderer* renderer )
     }
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
     SDL_RenderFillRects( renderer, rects, 2 );
-
-    if ( playField.GetScore() != displayedScore )
-    {
-        char buffer[10];
-        SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0x00 };
-
-        displayedScore = playField.GetScore();
-        sprintf( buffer, "%d", displayedScore );
-        if( !scoreTexture.LoadFromRenderedText( renderer, buffer, textColor, loadedFont ) )
-        {
-            printf( "Failed to render text texture.\n" );
-        }
-    }
-
-    scoreTexture.Render( renderer, 40 + 11 * squareSize, 40 );
 
     playField.Render( renderer, 40, 40 );
 }

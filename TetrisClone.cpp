@@ -55,7 +55,7 @@ void TetrisClone::Update()
     int requestedState = currentState->GetGameStateRequest();
     if ( requestedState != -1 )
     {
-        if ( !FadeOut() && ( SDL_GetTicks() - fadeLastTime > 500 || requestedState == SDL_QUIT ) )
+        if ( !FadeOut() && ( SDL_GetTicks() - fadeLastTime > 500 || requestedState == GAME_QUIT ) )
         {
             switch ( requestedState )
             {
@@ -104,14 +104,18 @@ void TetrisClone::Render()
 
 bool TetrisClone::FadeIn()
 {
-    if ( fadeAlpha <= 0x00 )
-        return false;
+    if ( fadeAlpha == 0x00 )
+        return false; // Already at minimum alpha value
 
-    int currentTime = SDL_GetTicks();
-    if ( currentTime - fadeLastTime > fadeDelay )
+    if ( fadeAlpha == 0xFF )
+        fadeLastTime = SDL_GetTicks() - fadeDelay; // Reset checkpoint
+
+    int timePassed = ( fadeAlpha == 0xFF ) ? fadeDelay : SDL_GetTicks() - fadeLastTime;
+
+    if ( timePassed >= fadeDelay )
     {
-        fadeAlpha--;
-        fadeLastTime = currentTime;
+        fadeAlpha = max( fadeAlpha - timePassed / fadeDelay, 0x00 );
+        fadeLastTime += timePassed;
     }
 
     return true;
@@ -119,14 +123,18 @@ bool TetrisClone::FadeIn()
 
 bool TetrisClone::FadeOut()
 {
-    if ( fadeAlpha >= 0xFF )
-        return false;
+    if ( fadeAlpha == 0xFF )
+        return false; // Already at maximum alpha value
 
-    int currentTime = SDL_GetTicks();
-    if ( currentTime - fadeLastTime > fadeDelay )
+    if ( fadeAlpha == 0x00 )
+        fadeLastTime = SDL_GetTicks() - fadeDelay; // Reset checkpoint
+
+    int timePassed = SDL_GetTicks() - fadeLastTime;
+
+    if ( timePassed >= fadeDelay )
     {
-        fadeAlpha++;
-        fadeLastTime = currentTime;
+        fadeAlpha = min( fadeAlpha + timePassed / fadeDelay, 0xFF );
+        fadeLastTime += timePassed;
     }
 
     return true;

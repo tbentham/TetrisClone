@@ -1,24 +1,28 @@
 #include "TitleGameState.h"
 
 #include <stdio.h>
+#include <SDL_ttf.h>
 
 bool TitleGameState::Init( SDL_Renderer* renderer )
 {
     gameStateRequest = -1; // -1 = no request
 
-    titleFont = TTF_OpenFont( "the_first_fontstruction.ttf", 56 );
-    if( titleFont == NULL )
+    TTF_Font* loadedFont = TTF_OpenFont( "the_first_fontstruction.ttf", 56 );
+    if( loadedFont == NULL )
     {
         printf( "Failed to load font. SDL_ttf error: %s\n", TTF_GetError() );
         printf( "Failed to load media for play state.\n" );
         return false;
     }
 
-    if( !titleTexture.LoadFromRenderedText( renderer, "TETRIS CLONE", { 0xFF, 0xFF, 0xFF, 0x00 }, titleFont ) )
+    if( !titleTexture.LoadFromRenderedText( renderer, "TETRIS CLONE", { 0xFF, 0xFF, 0xFF, 0x00 }, loadedFont ) )
     {
         printf( "Failed to render title text texture.\n" );
         return false;
     }
+
+    TTF_CloseFont( loadedFont );
+    loadedFont = NULL;
 
     titleMenu.LoadTextures( renderer );
 
@@ -27,8 +31,7 @@ bool TitleGameState::Init( SDL_Renderer* renderer )
 
 void TitleGameState::Cleanup()
 {
-    TTF_CloseFont( titleFont );
-    titleFont = NULL;
+
 }
 
 void TitleGameState::HandleEvent( SDL_Event& e )
@@ -79,7 +82,7 @@ void TitleGameState::Render( SDL_Renderer* renderer )
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x99, 0xFF );
     SDL_RenderClear( renderer );
 
-    titleTexture.Render( renderer, 50, 40 );
+    titleTexture.Render( renderer, 50, 30 );
 
     titleMenu.Render( renderer, 80, 120 );
 }

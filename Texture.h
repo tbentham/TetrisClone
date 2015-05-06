@@ -13,10 +13,8 @@ private:
 
     SDL_Texture* actualTexture;
 
-    TTF_Font* tFont;
-
 public:
-    Texture() : tWidth( 0 ), tHeight( 0 ), actualTexture( NULL ), tFont( NULL ) {};
+    Texture() : tWidth( 0 ), tHeight( 0 ), actualTexture( NULL ) {};
     ~Texture() { Cleanup(); };
 
     bool LoadFromFile( SDL_Renderer* renderer, std::string path, SDL_Color keyColor = { 0x00, 0x00, 0x00, 0x00 } );
@@ -24,10 +22,9 @@ public:
     void Cleanup();
     void Render( SDL_Renderer* renderer, int x, int y );
 
-    bool IsLoaded() { return actualTexture != NULL || tFont != NULL; }
+    bool IsLoaded() { return actualTexture != NULL; }
     int GetWidth() { return tWidth; };
     int GetHeight() { return tHeight; };
-    void SetFont( TTF_Font* newFont ) { tFont = newFont; };
 };
 
 #endif // TEXTURE_H_INCLUDED

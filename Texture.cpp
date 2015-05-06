@@ -70,12 +70,6 @@ void Texture::Cleanup()
         tWidth = 0;
         tHeight = 0;
     }
-
-    if ( tFont != NULL )
-    {
-        TTF_CloseFont(tFont);
-        tFont = NULL;
-    }
 }
 
 void Texture::Render( SDL_Renderer* renderer, int x, int y )
