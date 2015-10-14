@@ -122,10 +122,7 @@ void Field::Render( SDL_Renderer* renderer, int x, int y )
         SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0x00 };
 
         sprintf( buffer, "%d", actualScore );
-        if( !scoreTexture.LoadFromRenderedText( renderer, buffer, textColor, scoreFont ) )
-        {
-            printf( "Failed to render score texture.\n" );
-        }
+        scoreTexture.LoadFromRenderedText( renderer, buffer, textColor, scoreFont );
 
         displayedScore = actualScore;
     }

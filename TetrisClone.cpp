@@ -67,7 +67,10 @@ void TetrisClone::Update()
                 currentState.reset( new PlayGameState() );
                 currentState->Init( mainRenderer );
                 break;
-            //case GAME_SCORE:
+            case GAME_SCORE:
+                currentState.reset( new ScoreGameState( currentState->GetGlobalScore() ) );
+                currentState->Init( mainRenderer );
+                break;
             case GAME_QUIT:
                 isRunning = false;
                 break;

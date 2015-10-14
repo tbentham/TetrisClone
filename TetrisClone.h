@@ -6,6 +6,7 @@
 #include "GameState.h"
 #include "PlayGameState.h"
 #include "TitleGameState.h"
+#include "ScoreGameState.h"
 
 class TetrisClone
 {

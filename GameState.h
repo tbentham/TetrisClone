@@ -15,6 +15,7 @@ class GameState
 {
 protected:
     int gameStateRequest = -1;
+    int globalScore = -1;
 public:
     virtual bool Init( SDL_Renderer* renderer ) = 0;
     virtual void Cleanup() = 0;
@@ -23,6 +24,7 @@ public:
     virtual void Render( SDL_Renderer* renderer ) = 0;
 
     int GetGameStateRequest() { return gameStateRequest; };
+    int GetGlobalScore() { return globalScore; };
 };
 
 #endif // GAMESTATE_H_INCLUDED

@@ -42,6 +42,7 @@ bool Texture::LoadFromRenderedText( SDL_Renderer* renderer, std::string textureT
 	if( textSurface == NULL )
 	{
 		printf( "Unable to render text surface. SDL_ttf error: %s\n", TTF_GetError() );
+        printf( "Failed to render text texture for '%s'.\n", textureText.c_str() );
 		return false;
 	}
 
@@ -49,6 +50,7 @@ bool Texture::LoadFromRenderedText( SDL_Renderer* renderer, std::string textureT
     if( actualTexture == NULL )
     {
         printf( "Unable to create texture from rendered text. SDL error: %s\n", SDL_GetError() );
+        printf( "Failed to render text texture for '%s'.\n", textureText.c_str() );
         SDL_FreeSurface( textSurface );
         return false;
     }

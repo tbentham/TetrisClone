@@ -15,7 +15,6 @@ class TitleGameState : public GameState
 {
 private:
     Texture titleTexture;
-
     Menu titleMenu;
 public:
     TitleGameState() {};

@@ -44,6 +44,7 @@ void PlayGameState::HandleEvent( SDL_Event& e )
             case SDLK_ESCAPE:
                 printf( "Key press Esc\n" );
                 gameStateRequest = GAME_TITLE;
+                break;
             default:
                 break;
             }
@@ -55,8 +56,11 @@ void PlayGameState::Update()
 {
     playField.Update();
 
+    if ( playField.GetScore() != globalScore )
+        globalScore = playField.GetScore();
+
     if ( playField.GetCurrentState() == FIELD_GAMEOVER )
-        gameStateRequest = GAME_TITLE;
+        gameStateRequest = GAME_SCORE;
 }
 
 void PlayGameState::Render( SDL_Renderer* renderer )

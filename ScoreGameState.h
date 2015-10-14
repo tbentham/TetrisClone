@@ -3,11 +3,8 @@
 
 #include "GameState.h"
 
-#include <iostream>
-#include <fstream>
-#include <SDL_ttf.h>
-
 #include "Texture.h"
+#include "Scoreboard.h"
 
 enum ScoreState
 {
@@ -17,22 +14,12 @@ enum ScoreState
 class ScoreGameState : public GameState
 {
 private:
-    static const int listSize = 10;
-    // TODO: Create List class (and move the following) (?)
-    char* nameList;
-    int* scoreList;
-
     int newScore;
 
-    std::fstream scoreFile; // TODO: Implement file read/write with SDL_RWops
-
     Texture headingTexture;
-
-    TTF_Font* listFont;
-    Texture listTextures;
-
+    Scoreboard board;
 public:
-    ScoreGameState() {};
+    ScoreGameState( int score ) : newScore( score ) {};
     ~ScoreGameState() { Cleanup(); };
 
     bool Init( SDL_Renderer* renderer );
