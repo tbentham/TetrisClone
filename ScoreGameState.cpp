@@ -1,7 +1,7 @@
 #include "ScoreGameState.h"
 
 #include <stdio.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 
 bool ScoreGameState::Init( SDL_Renderer* renderer )
 {

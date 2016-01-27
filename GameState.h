@@ -1,7 +1,7 @@
 #ifndef GAMESTATE_H_INCLUDED
 #define GAMESTATE_H_INCLUDED
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 enum GameStateRequest
 {

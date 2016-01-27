@@ -1,7 +1,7 @@
 #include "Texture.h"
 
 #include <stdio.h>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 bool Texture::LoadFromFile( SDL_Renderer* renderer, std::string path, SDL_Color keyColor )
 {

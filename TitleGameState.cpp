@@ -1,7 +1,7 @@
 #include "TitleGameState.h"
 
 #include <stdio.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 
 bool TitleGameState::Init( SDL_Renderer* renderer )
 {
