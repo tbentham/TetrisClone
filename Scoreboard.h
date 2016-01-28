@@ -15,7 +15,7 @@ private:
     static const int nameLength = 3;
     static const int fontSize = 28;
     static const int lineSpacing = 30;
-    static const int columnSpacing = 200;
+    const int columnSpacing[2] = { 50, 200 };
     static const int cursorDelay = 200;
 
     std::vector<std::string> nameList;
@@ -32,6 +32,7 @@ private:
 
     TTF_Font* font;
     std::vector<Texture> charTextures;
+    std::vector<Texture> numTextures;
     std::vector<Texture> scoreTextures;
     Texture messageTexture;
     Texture unrankedScoreTexture;
@@ -54,7 +55,7 @@ public:
 
     int GetPlayerScore() { return playerScore; };
     void SetPlayerScore( int score ) { playerScore = score; };
-    bool PlayerRanked() { return playerRank != listSize; };
+    bool PlayerBeingRanked() { return playerRank != listSize; };
 };
 
 #endif // SCOREBOARD_H_INCLUDED

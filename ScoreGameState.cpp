@@ -5,11 +5,6 @@
 
 bool ScoreGameState::Init( SDL_Renderer* renderer )
 {
-    /* TEMP_INIT
-    gameStateRequest = GAME_TITLE;
-    return true;
-    TEMP_END */
-
     gameStateRequest = -1; // -1 = no request
 
     // Initialise titleTexture
@@ -53,16 +48,23 @@ void ScoreGameState::HandleEvent( SDL_Event& e )
         {
         case SDLK_ESCAPE:
             printf( "Key press Esc\n" );
-            if ( !board.PlayerRanked() )
+            if ( !board.PlayerBeingRanked() )
+                gameStateRequest = GAME_TITLE;
+            break;
+        case SDLK_RETURN:
+            printf( "Key press return\n" );
+            if ( board.PlayerBeingRanked() )
+                board.CharEnter( '.' );
+            else
                 gameStateRequest = GAME_TITLE;
             break;
         case SDLK_BACKSPACE:
             printf( "Key press backspace\n" );
-            if ( board.PlayerRanked() )
+            if ( board.PlayerBeingRanked() )
                 board.CharBack();
             break;
         default:
-            if ( board.PlayerRanked() )
+            if ( board.PlayerBeingRanked() )
             {
                 SDL_Keycode code = e.key.keysym.sym;
                 if ( code >= SDLK_0 && code <= SDLK_9 )
