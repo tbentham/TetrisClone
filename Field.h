@@ -1,8 +1,8 @@
 #ifndef FIELD_H_INCLUDED
 #define FIELD_H_INCLUDED
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "Texture.h"
 
 enum BlockType

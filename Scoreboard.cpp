@@ -129,7 +129,7 @@ bool Scoreboard::LoadTextures( SDL_Renderer* renderer )
     int i;
 
     // Load character textures
-    charTextures.assign( 38, Texture() );
+    charTextures.assign( 28, Texture() );
     sprintf( buffer, "A" );
     for ( i = 0; i < 26; i++ )
     {
@@ -140,32 +140,34 @@ bool Scoreboard::LoadTextures( SDL_Renderer* renderer )
         }
         buffer[0]++;
     }
-    sprintf( buffer, "0" );
-    for ( ; i < 36; i++ )
-    {
-        if( !charTextures[i].LoadFromRenderedText( renderer, buffer, textColor, font ) )
-        {
-            charTextures.clear();
-            return false;
-        }
-        buffer[0]++;
-    }
     sprintf( buffer, "_" );
-    if( !charTextures[36].LoadFromRenderedText( renderer, buffer, textColor, font ) )
+    if( !charTextures[26].LoadFromRenderedText( renderer, buffer, textColor, font ) )
     {
         charTextures.clear();
         return false;
     }
-    sprintf( buffer, " " );
-    if( !charTextures[37].LoadFromRenderedText( renderer, buffer, textColor, font ) )
+    sprintf( buffer, "?" );
+    if( !charTextures[27].LoadFromRenderedText( renderer, buffer, textColor, font ) )
     {
         charTextures.clear();
         return false;
     }
 
+    // Load number textures
+    numTextures.assign( std::max( 10, listSize + 1 ), Texture() );
+    for ( i = 0; i < numTextures.size(); i++ )
+    {
+        sprintf( buffer, "%d", i );
+        if( !numTextures[i].LoadFromRenderedText( renderer, buffer, textColor, font ) )
+        {
+            numTextures.clear();
+            return false;
+        }
+    }
+
     // Load score textures
     scoreTextures.assign( listSize, Texture() );
-    for ( int i = 0; i < listSize; i++ )
+    for ( i = 0; i < listSize; i++ )
     {
         sprintf( buffer, "%d", scoreList[i] );
         if( !scoreTextures[i].LoadFromRenderedText( renderer, buffer, textColor, font ))
@@ -209,26 +211,30 @@ void Scoreboard::Render( SDL_Renderer* renderer, int x, int y )
     int charShiftX = fontSize / 2;
     for ( unsigned int i = 0; i < listSize; i++ )
     {
+        numTextures[i+1].Render( renderer, posX, posY );
+
+        posX += columnSpacing[0];
+
         for ( unsigned int j = 0; j < nameLength; j++ )
         {
             if ( nameList[i][j] >= 'A' && nameList[i][j] <= 'Z' )
                 charTextures[nameList[i][j]-'A'].Render( renderer, posX, posY );
             else if ( nameList[i][j] >= '0' && nameList[i][j] <= '9' )
-                charTextures[26+nameList[i][j]-'0'].Render( renderer, posX, posY );
-            else if ( nameList[i][j] == '_' )
-            {
-                if ( showCursor )
-                    charTextures[36].Render( renderer, posX, posY );
-            }
-            else // Assume ( nameList[i][j] == ' ' )
-                charTextures[37].Render( renderer, posX, posY );
+                numTextures[nameList[i][j]-'0'].Render( renderer, posX, posY );
+            else if ( nameList[i][j] == '_' && showCursor )
+                charTextures[26].Render( renderer, posX, posY );
 
             posX += charShiftX;
         }
 
+        if ( i == playerRank && cursorPos == nameLength && showCursor )
+            charTextures[27].Render( renderer, posX, posY );
+
         posX -= nameLength * charShiftX;
 
-        scoreTextures[i].Render( renderer, posX + columnSpacing, posY );
+        scoreTextures[i].Render( renderer, posX + columnSpacing[1], posY );
+
+        posX -= columnSpacing[0];
 
         posY += lineSpacing;
     }
@@ -239,7 +245,7 @@ void Scoreboard::Render( SDL_Renderer* renderer, int x, int y )
         posY += 20;
         messageTexture.Render( renderer, posX, posY );
         if ( unrankedScoreTexture.IsLoaded() )
-            unrankedScoreTexture.Render( renderer, posX + columnSpacing, posY );
+            unrankedScoreTexture.Render( renderer, posX + columnSpacing[0] + columnSpacing[1], posY );
     }
 }
 
@@ -277,11 +283,17 @@ void Scoreboard::CharEnter( char c )
         return;
     }
 
-    nameList[playerRank][cursorPos++] = c;
 
     if ( cursorPos < nameLength )
-        nameList[playerRank][cursorPos] = '_';
-    else
+    {
+        if ( c != '.' )
+        {
+            nameList[playerRank][cursorPos++] = c;
+            if ( cursorPos < nameLength )
+                nameList[playerRank][cursorPos] = '_';
+        }
+    }
+    else if ( c == '.' )
     {
         playerRank = listSize;
         SaveScoreData( "score.bin" );
