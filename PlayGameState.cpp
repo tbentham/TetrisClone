@@ -6,6 +6,7 @@ bool PlayGameState::Init( SDL_Renderer* renderer )
 {
     gameStateRequest = -1; // -1 = no request
 
+    playField.LoadTextures( renderer );
     playField.SetUpNewGame();
 
     return true;

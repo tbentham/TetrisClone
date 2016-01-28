@@ -19,12 +19,27 @@ Field::Field()
         printf( "Failed to load media for play state.\n" );
     }
 
+    squareClips = new SDL_Rect[7];
+
+    for ( int i = 0; i < 7; i++ )
+    {
+        squareClips[i].x = ( i % 4 ) * squareSize;
+        squareClips[i].y = ( i / 4 ) * squareSize;
+        squareClips[i].w = squareSize;
+        squareClips[i].h = squareSize;
+    }
+
     SetUpNewGame();
 }
 
 Field::~Field()
 {
     TTF_CloseFont( scoreFont );
+}
+
+void Field::LoadTextures( SDL_Renderer* renderer )
+{
+    squareSheetTexture.LoadFromFile( renderer, "images/squareSheet.png" );
 }
 
 void Field::SetUpNewGame()
@@ -90,29 +105,35 @@ void Field::Update()
 
 void Field::Render( SDL_Renderer* renderer, int x, int y )
 {
-    SDL_Color bColor;
+    //SDL_Color bColor;
+    int bType;
 
     int i, j;
     for ( i = 0; i < 10; i++ )
     {
         for ( j = 4; j < 24; j++ )
         {
-            bColor = GetBlockColor( squares[ j * 10 + i ] );
+            //bColor = GetBlockColor( squares[ j * 10 + i ] );
 
-            if ( bColor.a == 0 )
-                continue;
+            //if ( bColor.a == 0 )
+            //    continue;
 
-            SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
+            //SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
 
-            RenderSquare( renderer, x + i * squareSize, y + ( j - 4 ) * squareSize );
+            //RenderSquare( renderer, x + i * squareSize, y + ( j - 4 ) * squareSize );
+
+            bType = squares[ j * 10 + i ];
+
+            if ( bType < 7 )
+                squareSheetTexture.Render( renderer, x + i * squareSize, y + ( j - 4 ) * squareSize, &squareClips[bType] );
         }
     }
 
-    bColor = GetBlockColor( nextBlockType );
+    //bColor = GetBlockColor( nextBlockType );
 
-    if ( bColor.a != 0 )
+    if ( /* bColor.a != 0*/ nextBlockType < 7 )
     {
-        SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
+        //SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
         RenderBlock( renderer, nextBlockType, x + 11 * squareSize, y + 3 * squareSize );
     }
 
@@ -199,46 +220,46 @@ void Field::RenderBlock( SDL_Renderer* renderer, int blockType, int x, int y )
     switch ( blockType )
     {
     case BLOCK_I:
-        RenderSquare( renderer, x + squareSize, y );
-        RenderSquare( renderer, x + squareSize, y + squareSize );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 2 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 3 );
+        squareSheetTexture.Render( renderer, x + squareSize, y, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 3, &squareClips[blockType] );
         break;
     case BLOCK_J:
-        RenderSquare( renderer, x + squareSize, y + squareSize );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 2 );
-        RenderSquare( renderer, x, y + squareSize * 3 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 3 );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 3, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 3, &squareClips[blockType] );
         break;
     case BLOCK_L:
-        RenderSquare( renderer, x, y + squareSize );
-        RenderSquare( renderer, x, y + squareSize * 2 );
-        RenderSquare( renderer, x, y + squareSize * 3 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 3 );
+        squareSheetTexture.Render( renderer, x, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 3, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 3, &squareClips[blockType] );
         break;
     case BLOCK_O:
-        RenderSquare( renderer, x, y + squareSize );
-        RenderSquare( renderer, x + squareSize, y + squareSize );
-        RenderSquare( renderer, x, y + squareSize * 2 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 2 );
+        squareSheetTexture.Render( renderer, x, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 2, &squareClips[blockType] );
         break;
     case BLOCK_S:
-        RenderSquare( renderer, x, y + squareSize );
-        RenderSquare( renderer, x, y + squareSize * 2 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 2 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 3 );
+        squareSheetTexture.Render( renderer, x, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 3, &squareClips[blockType] );
         break;
     case BLOCK_T:
-        RenderSquare( renderer, x, y + squareSize );
-        RenderSquare( renderer, x, y + squareSize * 2 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 2 );
-        RenderSquare( renderer, x, y + squareSize * 3 );
+        squareSheetTexture.Render( renderer, x, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 3, &squareClips[blockType] );
         break;
     case BLOCK_Z:
-        RenderSquare( renderer, x + squareSize, y + squareSize );
-        RenderSquare( renderer, x, y + squareSize * 2 );
-        RenderSquare( renderer, x + squareSize, y + squareSize * 2 );
-        RenderSquare( renderer, x, y + squareSize * 3 );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x + squareSize, y + squareSize * 2, &squareClips[blockType] );
+        squareSheetTexture.Render( renderer, x, y + squareSize * 3, &squareClips[blockType] );
         break;
     default:
         break;

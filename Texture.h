@@ -20,7 +20,7 @@ public:
     bool LoadFromFile( SDL_Renderer* renderer, std::string path, SDL_Color keyColor = { 0x00, 0x00, 0x00, 0x00 } );
     bool LoadFromRenderedText( SDL_Renderer* renderer, std::string textureText, SDL_Color textColor, TTF_Font* font );
     void Cleanup();
-    void Render( SDL_Renderer* renderer, int x, int y );
+    void Render( SDL_Renderer* renderer, int x, int y, SDL_Rect* clip = NULL );
 
     bool IsLoaded() { return actualTexture != NULL; }
     int GetWidth() { return tWidth; };

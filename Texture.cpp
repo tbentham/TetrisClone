@@ -74,8 +74,15 @@ void Texture::Cleanup()
     }
 }
 
-void Texture::Render( SDL_Renderer* renderer, int x, int y )
+void Texture::Render( SDL_Renderer* renderer, int x, int y, SDL_Rect* clip )
 {
     SDL_Rect renderQuad = { x, y, tWidth, tHeight };
-    SDL_RenderCopy( renderer, actualTexture, NULL, &renderQuad );
+
+    if ( clip != NULL )
+    {
+        renderQuad.w = clip->w;
+        renderQuad.h = clip->h;
+    }
+
+    SDL_RenderCopy( renderer, actualTexture, clip, &renderQuad );
 }

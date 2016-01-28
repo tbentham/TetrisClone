@@ -7,7 +7,7 @@
 
 enum BlockType
 {
-    BLOCK_I,
+    BLOCK_I = 0,
     BLOCK_J,
     BLOCK_L,
     BLOCK_O,
@@ -58,6 +58,8 @@ private:
 
     TTF_Font* scoreFont;
     Texture scoreTexture;
+    Texture squareSheetTexture;
+    SDL_Rect* squareClips;
 
     SDL_Color GetBlockColor( int blockType );
     void RenderSquare( SDL_Renderer* renderer, int x, int y );
@@ -74,6 +76,8 @@ private:
 public:
     Field();
     ~Field();
+
+    void LoadTextures( SDL_Renderer* renderer );
 
     void SetUpNewGame();
 
