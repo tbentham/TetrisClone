@@ -61,8 +61,6 @@ private:
     Texture squareSheetTexture;
     SDL_Rect* squareClips;
 
-    SDL_Color GetBlockColor( int blockType );
-    void RenderSquare( SDL_Renderer* renderer, int x, int y );
     void RenderBlock( SDL_Renderer* renderer, int blockType, int x, int y );
 
     void ReleaseNextBlock();

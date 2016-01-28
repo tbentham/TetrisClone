@@ -20,7 +20,6 @@ Field::Field()
     }
 
     squareClips = new SDL_Rect[7];
-
     for ( int i = 0; i < 7; i++ )
     {
         squareClips[i].x = ( i % 4 ) * squareSize;
@@ -105,7 +104,6 @@ void Field::Update()
 
 void Field::Render( SDL_Renderer* renderer, int x, int y )
 {
-    //SDL_Color bColor;
     int bType;
 
     int i, j;
@@ -113,15 +111,6 @@ void Field::Render( SDL_Renderer* renderer, int x, int y )
     {
         for ( j = 4; j < 24; j++ )
         {
-            //bColor = GetBlockColor( squares[ j * 10 + i ] );
-
-            //if ( bColor.a == 0 )
-            //    continue;
-
-            //SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
-
-            //RenderSquare( renderer, x + i * squareSize, y + ( j - 4 ) * squareSize );
-
             bType = squares[ j * 10 + i ];
 
             if ( bType < 7 )
@@ -129,13 +118,8 @@ void Field::Render( SDL_Renderer* renderer, int x, int y )
         }
     }
 
-    //bColor = GetBlockColor( nextBlockType );
-
-    if ( /* bColor.a != 0*/ nextBlockType < 7 )
-    {
-        //SDL_SetRenderDrawColor( renderer, bColor.r, bColor.g, bColor.b, bColor.a );
+    if ( nextBlockType < 7 )
         RenderBlock( renderer, nextBlockType, x + 11 * squareSize, y + 3 * squareSize );
-    }
 
     if ( actualScore != displayedScore )
     {
@@ -149,70 +133,6 @@ void Field::Render( SDL_Renderer* renderer, int x, int y )
     }
 
     scoreTexture.Render( renderer, x + 11 * squareSize, y );
-}
-
-SDL_Color Field::GetBlockColor( int blockType )
-{
-    SDL_Color bColor;
-
-    bColor.a = 0xFF;
-
-    switch ( blockType )
-    {
-    case BLOCK_I: // red
-        bColor.r = 0xFF;
-        bColor.g = 0x00;
-        bColor.b = 0x00;
-        break;
-    case BLOCK_J: // blue
-        bColor.r = 0x00;
-        bColor.g = 0x00;
-        bColor.b = 0xFF;
-        break;
-    case BLOCK_L: // orange
-        bColor.r = 0xFF;
-        bColor.g = 0xA5;
-        bColor.b = 0x00;
-        break;
-    case BLOCK_O: // yellow
-        bColor.r = 0xFF;
-        bColor.g = 0xFF;
-        bColor.b = 0x00;
-        break;
-    case BLOCK_S: // green
-        bColor.r = 0x00;
-        bColor.g = 0xFF;
-        bColor.b = 0x00;
-        break;
-    case BLOCK_T: // magenta
-        bColor.r = 0xFF;
-        bColor.g = 0x00;
-        bColor.b = 0xFF;
-        break;
-    case BLOCK_Z: // cyan
-        bColor.r = 0x00;
-        bColor.g = 0xFF;
-        bColor.b = 0xFF;
-        break;
-    default:
-        bColor.a = 0x00;
-    }
-
-    return bColor;
-}
-
-void Field::RenderSquare( SDL_Renderer* renderer, int x, int y )
-{
-    SDL_Rect square = { x, y, squareSize, squareSize };
-
-    SDL_RenderFillRect( renderer, &square );
-
-    SDL_Color dColor;
-    SDL_GetRenderDrawColor( renderer, &(dColor.r), &(dColor.g), &(dColor.b), &(dColor.a) );
-
-    SDL_SetRenderDrawColor( renderer, dColor.r / 2, dColor.g / 2, dColor.b / 2, 0xFF );
-    SDL_RenderDrawRect( renderer, &square );
-    SDL_SetRenderDrawColor( renderer, dColor.r, dColor.g, dColor.b, 0xFF );
 }
 
 void Field::RenderBlock( SDL_Renderer* renderer, int blockType, int x, int y )
