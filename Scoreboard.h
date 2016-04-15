@@ -8,6 +8,7 @@
 
 #include "Texture.h"
 
+/* Handles score data and displays scores during the score game state */
 class Scoreboard
 {
 private:

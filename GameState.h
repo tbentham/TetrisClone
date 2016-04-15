@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "Texture.h"
 
+// Request to change to another game state ( -1 = no change )
 enum GameStateRequest
 {
     GAME_TITLE,
@@ -12,6 +13,7 @@ enum GameStateRequest
     GAME_QUIT
 };
 
+/* Superclass for multiple game states */
 class GameState
 {
 protected:

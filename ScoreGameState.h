@@ -10,6 +10,7 @@ enum ScoreState
     SCORE_NORMAL
 };
 
+/* Game state where scores are recorded and displayed */
 class ScoreGameState : public GameState
 {
 private:

@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+/* Wrapper for SDL_Texture class ( based on code by Lazy Foo' Productions ) */
 class Texture
 {
 private:

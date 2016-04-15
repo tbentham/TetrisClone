@@ -8,6 +8,7 @@
 #include "TitleGameState.h"
 #include "ScoreGameState.h"
 
+/* General container for the game */
 class TetrisClone
 {
 private:

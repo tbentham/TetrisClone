@@ -10,6 +10,7 @@ enum TitleState
     TITLE_NORMAL
 };
 
+/* Game state where title and main menu are displayed */
 class TitleGameState : public GameState
 {
 private:

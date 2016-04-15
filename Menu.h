@@ -22,6 +22,7 @@ enum MoveDirection
     MOVE_RIGHT
 };
 
+/* Main menu of options displayed during the title game state */
 class Menu
 {
 private:

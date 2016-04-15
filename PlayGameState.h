@@ -10,6 +10,7 @@ enum PlayState
     PLAY_NORMAL
 };
 
+/* Game state where game is actually played */
 class PlayGameState : public GameState
 {
 private:
