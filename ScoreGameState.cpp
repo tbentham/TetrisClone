@@ -7,6 +7,8 @@ bool ScoreGameState::Init( SDL_Renderer* renderer )
 {
     gameStateRequest = -1; // -1 = no request
 
+    backgroundTexture.LoadFromFile( renderer, "images/backgroundScore.png" );
+
     // Initialise titleTexture
     TTF_Font* loadedFont = TTF_OpenFont( "the_first_fontstruction.ttf", 48 );
     if( loadedFont == NULL )
@@ -92,6 +94,8 @@ void ScoreGameState::Render( SDL_Renderer* renderer )
 {
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x99, 0xFF );
     SDL_RenderClear( renderer );
+
+    backgroundTexture.Render( renderer, 0, 0 );
 
     headingTexture.Render( renderer, 50, 25 );
 

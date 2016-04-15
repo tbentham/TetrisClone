@@ -7,6 +7,8 @@ bool TitleGameState::Init( SDL_Renderer* renderer )
 {
     gameStateRequest = -1; // -1 = no request
 
+    backgroundTexture.LoadFromFile( renderer, "images/backgroundTitle.png" );
+
     TTF_Font* loadedFont = TTF_OpenFont( "the_first_fontstruction.ttf", 72 );
     if( loadedFont == NULL )
     {
@@ -79,6 +81,8 @@ void TitleGameState::Render( SDL_Renderer* renderer )
 {
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x99, 0xFF );
     SDL_RenderClear( renderer );
+
+    backgroundTexture.Render( renderer, 0, 0 );
 
     titleTexture.Render( renderer, 50, 30 );
 

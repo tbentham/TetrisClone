@@ -23,7 +23,7 @@ Field::Field()
     for ( int i = 0; i < 7; i++ )
     {
         squareClips[i].x = ( i % 4 ) * squareSize;
-        squareClips[i].y = ( i / 4 ) * squareSize;
+        squareClips[i].y = ( i / 4 ) * ( squareSize + 20 ) + 20;
         squareClips[i].w = squareSize;
         squareClips[i].h = squareSize;
     }
@@ -38,7 +38,7 @@ Field::~Field()
 
 void Field::LoadTextures( SDL_Renderer* renderer )
 {
-    squareSheetTexture.LoadFromFile( renderer, "images/squareSheet.png" );
+    squareSheetTexture.LoadFromFile( renderer, "images/squareSheet2.png" );
 }
 
 void Field::SetUpNewGame()

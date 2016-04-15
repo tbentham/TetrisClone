@@ -6,6 +6,8 @@ bool PlayGameState::Init( SDL_Renderer* renderer )
 {
     gameStateRequest = -1; // -1 = no request
 
+    backgroundTexture.LoadFromFile( renderer, "images/backgroundPlay.png" );
+
     playField.LoadTextures( renderer );
     playField.SetUpNewGame();
 
@@ -69,10 +71,12 @@ void PlayGameState::Render( SDL_Renderer* renderer )
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x99, 0xFF );
     SDL_RenderClear( renderer );
 
+    backgroundTexture.Render( renderer, 0, 0 );
+
     const int squareSize = playField.GetSquareSize();
     SDL_Rect rects[2];
 
-    {
+    /*{
         SDL_Rect fieldBorderRect = { 38, 38, 10 * squareSize + 4, 20 * squareSize + 4 };
         SDL_Rect nextBorderRect = { 38 + 11 * squareSize, 38 + 3 * squareSize, 2 * squareSize + 4, 4 * squareSize + 4 };
         rects[0] = fieldBorderRect;
@@ -88,7 +92,7 @@ void PlayGameState::Render( SDL_Renderer* renderer )
         rects[1] = nextRect;
     }
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
-    SDL_RenderFillRects( renderer, rects, 2 );
+    SDL_RenderFillRects( renderer, rects, 2 );*/
 
     playField.Render( renderer, 40, 40 );
 }
