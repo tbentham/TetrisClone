@@ -3,7 +3,6 @@
 
 #include "GameState.h"
 
-#include "Texture.h"
 #include "Scoreboard.h"
 
 enum ScoreState
