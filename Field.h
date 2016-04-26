@@ -35,6 +35,7 @@ enum FieldState
     FIELD_GAMEOVER
 };
 
+/* Handles game blocks during the play game state */
 class Field
 {
 private:
